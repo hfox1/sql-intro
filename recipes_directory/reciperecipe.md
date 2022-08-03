@@ -195,10 +195,10 @@ repo = RecipeRepository.new
 
 recipe = repo.find(1)
 
-expect(recipe[0].id).to eq(1)
-expect(recipe[0].name).to eq('Osso Bucco') 
-expect(recipe[0].cook_time).to eq('240') 
-expect(recipe[0].rating).to eq('3')
+expect(recipe.id).to eq(1)
+expect(recipe.name).to eq('Osso Bucco') 
+expect(recipe.cook_time).to eq('240') 
+expect(recipe.rating).to eq('3')
 
 # Add more examples for each method
 ```
