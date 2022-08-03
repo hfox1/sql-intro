@@ -43,4 +43,25 @@ RSpec.describe AlbumRepository do
     
   end
 
+  it "creates an entry" do 
+    albums = AlbumRepository.new
+
+    album = Album.new
+    album.title = 'Trompe le Monde'
+    album.release_year = 1991
+    album.artist_id = 1
+
+    albums.create(album)
+
+    all_albums = albums.all
+    expect(all_albums[2].title).to eq 'Trompe le Monde'
+    # The all_albums array should contain the new Album object
+  end
+
+  it "deletes an album" do 
+    repository = AlbumRepository.new
+    repository.delete(1)
+    expect(repository.all.length).to eq 1
+  end
+
 end 
