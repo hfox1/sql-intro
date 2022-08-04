@@ -69,7 +69,7 @@ class PostRepository
 
     DatabaseConnection.exec_params(sql, sql_params)
   end
-  
+
   def updater_string(update_field)
     "UPDATE posts SET #{update_field} = $1 WHERE id = $2;"
   end
