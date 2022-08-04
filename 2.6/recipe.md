@@ -115,59 +115,68 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
-# EXAMPLE
-# Table name: albums
+ACCOUNTS CLASSES 
+# Table name: account
 
-# Model class
-# (in lib/student.rb)
-class Album
+# Model class DONE
+# (in lib/account.rb)
+class Account
+attr_accessor 
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class AlbumsRepository
+# (in lib/account_repository.rb)
+class AccountRepository
+  def all 
+  end 
+
+  def find
+  end
+
+  def create
+  end
+
+  def delete
+  end 
+
+end
+
+POSTS CLASSES 
+
+# Model class
+# (in lib/post.rb)
+class Post
+end
+
+# Repository class
+# (in lib/post_repository.rb)
+class PostRepository
+def all 
+  end 
+
+  def find
+  end
+
+  def create
+  end
+
+  def delete
+  end 
 end
 
 4. Implement the Model class
 
-Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
+models done
 
-# EXAMPLE
-# Table name: albums
-
-# Model class
-# (in lib/student.rb)
-
-class Album
-  # Replace the attributes by your own columns.
-  attr_accessor :title, :release_year, :artist_id
-end
-
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
-You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.
-
-# 5. Define the Repository Class interface
-
-Your Repository class will need to implement methods for each "read" or "write" operation you'd like to run against the database.
-
-Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
-
-
-class AlbumRepository
+class accountRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT title, release_year, artist_id FROM albums;
+    # SELECT title, release_year, artist_id FROM accounts;
 
-    # Returns an array of Album objects.
+    # Returns an array of account objects.
   end
 
   def find(id)
@@ -178,7 +187,7 @@ class AlbumRepository
     # (If we needed more parameters, we would call them $2, $3...
     # and would need the same number of values in the params array).
 
-    # this shit needs to return an album, found by id
+    # this shit needs to return an account, found by id
 
     sql = 'SELECT name, cohort_name FROM students WHERE id = $1;'
 
@@ -202,41 +211,126 @@ These examples will later be encoded as RSpec tests.
 
 # EXAMPLES
 
+ACCOUNTS
+
+
 # 1
-# Get all albums
+# Get all accounts
 
 
-repo =  AlbumRepository.new 
+repo =  AccountRepository.new 
 
-albums = repo.all
+accounts = repo.all
 
-albums[0].title #=> 'damn'
-albums[0].release_year #=> 2017
-albums[0].artist_id #=> 7
-albums.length # =>  2
-albums[1].title # =>  'Mr Morale'
-albums[1].release_year # =>  22
-albums[1].artist_id # =>  7
+expect(accounts[0].email).to eq 'david@yahoo.com'
+expect(accounts[0].username).to eq 'big dave'
+expect(accounts.length).to eq 2
+expect(accounts[1].email).to eq 'janed@yahoo.com'
+expect(accounts[1].username).to eq 'jane'
 
 # 2
-# Get a single album
+# Get a single account
 
-repo = AlbumRepository.new
+repo = AccountRepository.new
 
-album = repo.find(1)
+account = repo.find(1)
 
-album.title # =>  'DAMN'
-album.release_year #=> 2017
-album.artist_id #=> 7
+expect(account.email).to eq 'david@yahoo.com'
+expect(account.username).to eq 'big dave'
 
-album = repo.find(2)
+account = repo.find(2)
 
-album.title # =>  'Mr Morale'
-album.release_year # =>  22
-album.artist_id #=> 7
+expect(account.email).to eq 'janed@yahoo.com'
+expect(account.username).to eq 'jane'
 
-# Add more examples for each method
-Encode this example as a test.
+# 3
+# Create a single account
+
+repo = AccountRepository.new
+account = Account.new
+account.email = 'david@yahoo.com'
+account.username = 'big dave'
+
+repo.create(account)
+
+expect(repo.all.length).to eq 3
+
+
+# 4
+# Delete a single account
+
+repo = AccountRepository.new
+repo.delete(1)
+expect(repo.all.length).to eq 1
+
+POSTS 
+
+
+
+# 1
+# Get all posts
+
+
+repo =  PostRepository.new 
+
+posts = repo.all
+
+expect(posts[0].title).to eq 'tuesday'
+expect(posts[0].content).to eq 'gregs'
+expect(posts[0].views).to eq '24'
+expect(posts[0].account_id).to eq '1'
+
+expect(posts.length).to eq 2
+
+expect(posts[1].title).to eq 'wednesday'
+expect(posts[1].content).to eq 'gregs2'
+expect(posts[1].views).to eq '10'
+expect(posts[1].account_id).to eq '2'
+
+# 2
+# Find a single post
+
+repo =  PostRepository.new 
+
+post = repo.find(1)
+
+expect(post.title).to eq 'tuesday'
+expect(post.content).to eq 'gregs'
+expect(post.views).to eq '24'
+expect(post.account_id).to eq '1'
+
+post = repo.find(2)
+
+expect(post.title).to eq 'wednesday'
+expect(post.content).to eq 'gregs2'
+expect(post.views).to eq '10'
+expect(post.account_id).to eq '2'
+
+# 3
+# Create a single post
+
+repo = PostRepository.new
+post = post.new
+
+post.title = 'thursday'
+post.content = 'gregs3'
+post.views = '10000'
+post.account_id = '3'
+
+repo.create(post)
+
+expect(repo.all.length).to eq 3
+
+
+# 4
+# Delete a single post
+
+repo = PostRepository.new
+repo.delete(1)
+expect(repo.all.length).to eq 1
+
+
+
 
 7. Reload the SQL seeds before each test run
 
