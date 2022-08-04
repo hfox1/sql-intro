@@ -31,9 +31,8 @@ RSpec.describe PostRepository do
 
 
   it "Finds a single post" do
-
     repo =  PostRepository.new 
-
+    
     post = repo.find(1)
 
     expect(post.title).to eq 'tuesday'
@@ -77,20 +76,16 @@ RSpec.describe PostRepository do
 
   it "updates a single post value" do 
     repo = PostRepository.new
-    post = Post.new
- 
+    post = repo.all[0]
+
     post.views = '241'
 
-    repo.update(1, views, post.views)
+    repo.update(post, "views")
     
-    result = repo.find(1)
-
-    expect(result.title).to eq 'tuesday'
-    expect(result.content).to eq 'gregs'
-    expect(result.views).to eq '241'
-    expect(result.account_id).to eq '1'
+    expect(post.title).to eq 'tuesday'
+    expect(post.content).to eq 'gregs'
+    expect(post.views).to eq '241'
+    expect(post.account_id).to eq '1'
   end
 
 end
-
-# 'UPDATE artists SET "genre" = 'Pop' WHERE "id" = 1;'

@@ -50,31 +50,28 @@ class PostRepository
     DatabaseConnection.exec_params(sql, sql_params)
   end 
 
-  # def update (id, title, content, views, account_id)
-  #   sql = 'UPDATE posts SET views = ‘241’ WHERE “id” = $1, title = $2, content = $3, views $ '
-  #   sql_params = [id]
-
-  # end
-
-  def update (id, field, value)
-# fail if field is not a column name 
-
-    # sql = 'UPDATE posts SET $1 = $2 WHERE id = $3'
-    # sql_params = [field, value, id]
-
-    column_name = DatabaseConnection.quote_ident(views)
-    sql = conn.exec("UPDATE posts SET #{column_name} = $1 WHERE id = $2")
-    # sql = "UPDATE posts SET #{column_name} = $1 WHERE id = $2"
-    sql_params = [value, id]
+  def update(post, update_field)
+    sql = updater_string(update_field)
+    sql_params = []
+    case update_field
+      when "id"
+        sql_params << post.id
+      when "title"
+        sql_params << post.title
+      when "content"
+        sql_params << post.content
+      when "views"
+        sql_params << post.views
+      when "account_id"
+        sql_params << post.account_id
+    end
+    sql_params << post.id
 
     DatabaseConnection.exec_params(sql, sql_params)
-
-    # id = 1 field = 'views' value = post.views = '241'
-
-
+  end
+  
+  def updater_string(update_field)
+    "UPDATE posts SET #{update_field} = $1 WHERE id = $2;"
   end
 
 end
-
-table_name   = conn.quote_ident(table_name)
-query_result = conn.exec("SELECT * FROM #{table_name}")

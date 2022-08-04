@@ -49,7 +49,6 @@ RSpec.describe AccountRepository do
     expect(repo.all.length).to eq 3
   end
 
-
   it "Deletes a single account" do
     repo = AccountRepository.new
     repo.delete(1)
