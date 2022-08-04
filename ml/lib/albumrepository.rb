@@ -13,6 +13,7 @@ end
    result_set = DatabaseConnection.exec_params(sql, [])
    result_set.each{ |records|
     album = Album.new
+    album.id = records["id"]
     album.title = records["title"]
     album.artist_id = records["artist_id"]
     album.release_year = records["release_year"]

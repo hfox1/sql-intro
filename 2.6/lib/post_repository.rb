@@ -70,7 +70,7 @@ class PostRepository
     DatabaseConnection.exec_params(sql, sql_params)
 
     # id = 1 field = 'views' value = post.views = '241'
-# WE ARE GIVING UP 
+
 
   end
 
