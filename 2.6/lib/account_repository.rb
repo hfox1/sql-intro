@@ -9,6 +9,7 @@ class AccountRepository
 
     results.each { |record| 
     account = Account.new
+    account.id = record['id']
     account.email = record['email']
     account.username = record['username']
     all_accounts << account
@@ -21,11 +22,10 @@ class AccountRepository
 
     sql = 'SELECT * FROM accounts WHERE id = $1;'
     sql_params = [id]
-    result = DatabaseConnection.exec_params(sql,sql_params)
-    
-    record = result[0]
+    record = DatabaseConnection.exec_params(sql,sql_params)[0]
 
     account = Account.new
+    account.id = record['id']
     account.email = record['email']
     account.username = record['username']
 
@@ -46,6 +46,14 @@ class AccountRepository
     sql_params = [id]
     DatabaseConnection.exec_params(sql,sql_params)
 
+  end
+
+  def update(account)
+    
+    sql = 'UPDATE accounts SET email = $1, username = $2 WHERE id = $3;'
+    sql_params = [account.email, account.username, account.id]
+    DatabaseConnection.exec_params(sql, sql_params)
+  
   end
 
 end

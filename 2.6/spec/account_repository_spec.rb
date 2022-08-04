@@ -55,4 +55,20 @@ RSpec.describe AccountRepository do
     expect(repo.all.length).to eq 1
   end
 
+  it "updates an account" do
+    repo = AccountRepository.new
+
+    account = repo.find(1)
+
+    account.email = "curtis@me.com"
+    account.username = "citrus"
+
+    # p account
+    repo.update(account)
+    
+    updated = repo.find(1)
+    # p updated
+    expect(updated.email).to eq "curtis@me.com"
+    expect(updated.username).to eq "citrus"
+  end
 end
