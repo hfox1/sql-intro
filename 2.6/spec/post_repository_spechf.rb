@@ -80,7 +80,11 @@ RSpec.describe PostRepository do
 
     post.views = '241'
 
+<<<<<<< HEAD
     repo.update(post, "views")
+=======
+    repo.update('posts', 1, 'views', post.views)
+>>>>>>> aec0033 (-> 3.4) done)
     
     expect(post.title).to eq 'tuesday'
     expect(post.content).to eq 'gregs'
